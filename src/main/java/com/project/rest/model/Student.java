@@ -93,18 +93,8 @@ public class Student {
     public Student(){
     }
 
-    public Student(String imie, String nazwisko, String nrIndeksu, Boolean stacjonarny){
+    public Student(String imie, String nazwisko){
         this.imie = imie;
         this.nazwisko = nazwisko;
-        this.nrIndeksu = nrIndeksu;
-        this.stacjonarny = stacjonarny;
-    }
-
-    public Student(String imie, String nazwisko, String nrIndeksu, String email, Boolean stacjonarny){
-        this.imie = imie;
-        this.nazwisko = nazwisko;
-        this.nrIndeksu = nrIndeksu;
-        this.email = email;
-        this.stacjonarny = stacjonarny;
     }
 }

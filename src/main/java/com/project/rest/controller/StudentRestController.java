@@ -46,22 +46,22 @@ public class StudentRestController {
         return studentService.getStudent(studentId)
                 .map(p -> {
                     studentService.setStudent(student);
-                    return new ResponseEntity<Void>(HttpStatus.OK); // 200 (można też zwracać 204 - No content)
+                    return new ResponseEntity<Void>(HttpStatus.OK);
                 })
-                .orElseGet(() -> ResponseEntity.notFound().build()); // 404 - Not found
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/studenci/{studentId}")
     public ResponseEntity<Void> deletStudent(@PathVariable Integer studentId) {
         return studentService.getStudent(studentId).map(p -> {
             studentService.deleteStudent(studentId);
-            return new ResponseEntity<Void>(HttpStatus.OK); // 200
-        }).orElseGet(() -> ResponseEntity.notFound().build()); // 404 - Not found
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = "/studenci")
-    Page<Student> getStudenci(Pageable pageable) { // @RequestHeader HttpHeaders headers – jeżeli potrzebny
-        return studentService.getStudent(pageable); // byłby nagłówek, wystarczy dodać drugą zmienną z adnotacją
+    Page<Student> getStudenci(Pageable pageable){
+        return studentService.getStudent(pageable);
     }
 
     @GetMapping(value = "/studenci", params="nazwa")
