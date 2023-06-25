@@ -2,20 +2,22 @@ package com.project.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "student",
                 indexes = { @Index(name = "idx_nazwisko", columnList = "nazwisko", unique = false),
-                @Index(name = "idx_nr_indeksu", columnList = "nr_indeksu", unique = true)} )
+                        @Index(name = "idx_nr_indeksu", columnList = "nr_indeksu", unique = true)})
 public class Student {
     @ManyToMany(mappedBy = "studenci")
     @JsonIgnoreProperties({"studenci"})
     private Set<Projekt> projekty;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="student_id")
     private Integer studentId;
 
@@ -28,6 +30,8 @@ public class Student {
     @Column(name = "nr_indeksu", length = 20, unique = true, nullable = false)
     private String nrIndeksu;
 
+    @NotNull(message = "Brak adresu email")
+    @Email(message = "Niepoprawny format adresu email")
     @Column(length = 50, unique = true, nullable = false)
     private String email;
 
@@ -93,8 +97,17 @@ public class Student {
     public Student(){
     }
 
-    public Student(String imie, String nazwisko){
+    public Student(String imie, String nazwisko, String nrIndeksu){
         this.imie = imie;
         this.nazwisko = nazwisko;
+        this.nrIndeksu = nrIndeksu;
+    }
+
+    public Student(String imie, String nazwisko, String nrIndeksu, String email, Boolean stacjonarny){
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.nrIndeksu = nrIndeksu;
+        this.email = email;
+        this.stacjonarny = stacjonarny;
     }
 }

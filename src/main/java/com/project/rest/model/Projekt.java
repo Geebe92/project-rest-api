@@ -39,6 +39,7 @@ public class Projekt {
     private List<Zadanie> zadania;
 
     @ManyToMany
+    @JsonIgnoreProperties({"studenci"})
     @JoinTable(name = "projekt_student",
             joinColumns = {@JoinColumn(name = "projekt_id")},
             inverseJoinColumns = {@JoinColumn(name = "student_id")})
@@ -90,12 +91,6 @@ public class Projekt {
     public Projekt(String nazwa, String opis){
         this.nazwa=nazwa;
         this.opis=opis;
-    }
-
-    public Projekt(String nazwa, String opis, LocalDate dataOddania){
-        this.nazwa = nazwa;
-        this.opis = opis;
-        this.dataOddania = dataOddania;
     }
 
     public Projekt(Integer projektId, String nazwa, String opis, LocalDateTime dataCzasUtworzenia, LocalDate dataOddania) {

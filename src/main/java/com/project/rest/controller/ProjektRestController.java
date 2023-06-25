@@ -29,7 +29,6 @@ public class ProjektRestController {
 
     @PostMapping(path = "/projekty")
     ResponseEntity<Void> createProjekt(@Valid @RequestBody Projekt projekt){
-
         Projekt createdProjekt = projektService.setProjekt(projekt);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -39,8 +38,7 @@ public class ProjektRestController {
     }
 
     @PutMapping("/projekty/{projektId}")
-    public ResponseEntity<Void> updateProjekt(@Valid @RequestBody Projekt projekt,
-                                              @PathVariable Integer projektId) {
+    ResponseEntity<Void> updateProjekt(@Valid @RequestBody Projekt projekt, @PathVariable Integer projektId) {
         return projektService.getProjekt(projektId)
                 .map(p -> {
                     projektService.setProjekt(projekt);
@@ -50,10 +48,11 @@ public class ProjektRestController {
     }
 
     @DeleteMapping("/projekty/{projektId}")
-    public ResponseEntity<Void> deleteProjekt(@PathVariable Integer projektId) {
-        return projektService.getProjekt(projektId).map(p -> {
-            projektService.deleteProjekt(projektId);
-            return new ResponseEntity<Void>(HttpStatus.OK);
+    ResponseEntity<Void> deleteProjekt(@PathVariable Integer projektId) {
+        return projektService.getProjekt(projektId)
+                .map(p -> {
+                    projektService.deleteProjekt(projektId);
+                    return new ResponseEntity<Void>(HttpStatus.OK);
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

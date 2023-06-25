@@ -2,6 +2,7 @@ package com.project.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jdk.jfr.DataAmount;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 public class Zadanie {
     @ManyToOne
     @JoinColumn(name="projekt_id")
+    @JsonIgnoreProperties({"zadania"})
     private Projekt projekt;
 
     @Id
@@ -19,13 +21,13 @@ public class Zadanie {
     @Column(name="zadanie_id")
     private Integer zadanieId;
 
-    @Column(nullable = false,length = 50)
+    @Column(length = 50)
     private String nazwa;
 
     @Column
     private Integer kolejnosc;
 
-    @Column(length = 1000)
+    @Column(length = 100)
     private String opis;
 
     @Column(name="dataczas_dodania", nullable = false)
