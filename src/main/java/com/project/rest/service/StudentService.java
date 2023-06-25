@@ -11,7 +11,7 @@ public interface StudentService {
     Optional<Student> getStudent(Integer studentId);
     Student setStudent(Student student);
     void deleteStudent(Integer studentId);
-    Page<Student> getStudent(Pageable pageable);
+    Page<Student> getStudents(Pageable pageable);
     Page<Student> searchByImie(String imie, Pageable pageable);
 
 }

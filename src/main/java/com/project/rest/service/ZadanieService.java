@@ -11,6 +11,6 @@ public interface ZadanieService {
     Optional<Zadanie> getZadanie(Integer zadanieId);
     Zadanie setZadanie(Zadanie zadanie);
     void deleteZadanie(Integer zadanieId);
-    Page<Zadanie> getZadanie(Pageable pageable);
-    Page<Zadanie> searchByNazwa(Integer projektId, Pageable pageable);
+    Page<Zadanie> getZadania(Pageable pageable);
+    Page<Zadanie> getProjektZadania(Integer projektId, Pageable pageable);
 }

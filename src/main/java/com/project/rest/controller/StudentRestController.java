@@ -25,12 +25,12 @@ public class StudentRestController {
     }
 
     @GetMapping("/student/{studentID}")
-    ResponseEntity<Student> getProjekt(@PathVariable Integer studentID){
+    ResponseEntity<Student> getStudent(@PathVariable Integer studentID){
         return ResponseEntity.of(studentService.getStudent(studentID));
     }
 
     @PostMapping(path = "/studenci")
-    ResponseEntity<Void> createStudent(@Valid @RequestBody Student student ){
+    ResponseEntity<Void> createStudent(@RequestBody Student student ){
 
         Student createStudent = studentService.setStudent(student);
 
@@ -41,8 +41,7 @@ public class StudentRestController {
     }
 
     @PutMapping("/studenci/{studentId}")
-    public ResponseEntity<Void> updateStudent(@Valid @RequestBody Student student,
-                                              @PathVariable Integer studentId) {
+    ResponseEntity<Void> updateStudent(@RequestBody Student student, @PathVariable Integer studentId) {
         return studentService.getStudent(studentId)
                 .map(p -> {
                     studentService.setStudent(student);
@@ -52,20 +51,21 @@ public class StudentRestController {
     }
 
     @DeleteMapping("/studenci/{studentId}")
-    public ResponseEntity<Void> deletStudent(@PathVariable Integer studentId) {
-        return studentService.getStudent(studentId).map(p -> {
+    ResponseEntity<Void> deletStudent(@PathVariable Integer studentId) {
+        return studentService.getStudent(studentId)
+                .map(p -> {
             studentService.deleteStudent(studentId);
             return new ResponseEntity<Void>(HttpStatus.OK);
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping(value = "/studenci")
+    @GetMapping("/studenci")
     Page<Student> getStudenci(Pageable pageable){
-        return studentService.getStudent(pageable);
+        return studentService.getStudents(pageable);
     }
 
-    @GetMapping(value = "/studenci", params="nazwa")
-    Page<Student> getStudentByImime(@RequestParam String nazwa, Pageable pageable) {
-        return studentService.searchByImie(nazwa, pageable);
+    @GetMapping("/studenci/{nazwa}")
+    Page<Student> getStudentByImie(@RequestParam String imie, Pageable pageable) {
+        return studentService.searchByImie(imie, pageable);
     }
 }

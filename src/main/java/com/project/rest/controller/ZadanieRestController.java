@@ -26,7 +26,7 @@ public class ZadanieRestController {
     }
 
     @GetMapping("/zadania/{zadanieID}")
-    ResponseEntity<Zadanie> getProjekt(@PathVariable Integer zadanieID){
+    ResponseEntity<Zadanie> getZadanie(@PathVariable Integer zadanieID){
         return ResponseEntity.of(zadanieService.getZadanie(zadanieID));
     }
 
@@ -36,37 +36,38 @@ public class ZadanieRestController {
         Zadanie createZadanie = zadanieService.setZadanie(zadanie);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("{zadanieID}").buildAndExpand(createZadanie.getZadanieId()).toUri();
+                .path("/{zadanieID}").buildAndExpand(createZadanie.getZadanieId()).toUri();
 
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/zadania/{zadanieID}")
-    public ResponseEntity<Void> updateZadanie(@Valid @RequestBody Zadanie zadanie,
+    ResponseEntity<Void> updateZadanie(@RequestBody Zadanie zadanie,
                                               @PathVariable Integer zadanieID) {
         return zadanieService.getZadanie(zadanieID)
                 .map(p -> {
                     zadanieService.setZadanie(zadanie);
-                    return new ResponseEntity<Void>(HttpStatus.OK); // 200 (można też zwracać 204 - No content)
+                    return new ResponseEntity<Void>(HttpStatus.OK);
                 })
-                .orElseGet(() -> ResponseEntity.notFound().build()); // 404 - Not found
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/zadania/{zadanieID}")
-    public ResponseEntity<Void> deletZadanie(@PathVariable Integer zadanieID) {
-        return zadanieService.getZadanie(zadanieID).map(p -> {
+    ResponseEntity<Void> deletZadanie(@PathVariable Integer zadanieID) {
+        return zadanieService.getZadanie(zadanieID)
+                .map(p -> {
             zadanieService.deleteZadanie(zadanieID);
             return new ResponseEntity<Void>(HttpStatus.OK); // 200
         }).orElseGet(() -> ResponseEntity.notFound().build()); // 404 - Not found
     }
 
-    @GetMapping(value = "/zadania")
-    Page<Zadanie> getZadania(Pageable pageable) { // @RequestHeader HttpHeaders headers – jeżeli potrzebny
-        return zadanieService.getZadanie(pageable); // byłby nagłówek, wystarczy dodać drugą zmienną z adnotacją
+    @GetMapping("/zadania")
+    Page<Zadanie> getZadania(Pageable pageable) {
+        return zadanieService.getZadania(pageable);
     }
 
-//    @GetMapping(value = "/zadania", params="nazwa")
-//    Page<Zadanie> getStudentByImime(@RequestParam String nazwa, Pageable pageable) {
-//        return zadanieService.searchByNazwa(nazwa, pageable);
-//    }
+    @GetMapping("/zadania/{projekt}")
+    Page<Zadanie> getZadania(@RequestParam Integer projekt, Pageable pageable) {
+        return zadanieService.getProjektZadania(projekt, pageable);
+    }
 }

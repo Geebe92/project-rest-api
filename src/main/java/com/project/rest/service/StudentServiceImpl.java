@@ -28,18 +28,16 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Student setStudent(Student student) {
-        studentRepository.save(student);
-        return student;
+        return studentRepository.save(student);
     }
 
     @Override
-    @Transactional
     public void deleteStudent(Integer studentId) {
         studentRepository.deleteById(studentId);
     }
 
     @Override
-    public Page<Student> getStudent(Pageable pageable) {
+    public Page<Student> getStudents(Pageable pageable) {
         return studentRepository.findAll(pageable);
     }
 
